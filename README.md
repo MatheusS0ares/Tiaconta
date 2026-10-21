@@ -4,6 +4,7 @@ Agenda digital multi-tenant para educação infantil. Piloto: Escolinha ABC.
 
 - `CLAUDE.md` — regras para o Claude Code (leia primeiro)
 - `docs/PRD.md` — produto, fases, diferenciais
+- `docs/UX.md` — regras de interface (Laws of UX) e checklist de entrega
 - `docs/BENCHMARK-minha-escola.md` — análise do concorrente (visão do responsável)
 - `supabase/migrations/` — schema com RLS
 - `supabase/seed.sql` — escola piloto + campos padrão da agenda

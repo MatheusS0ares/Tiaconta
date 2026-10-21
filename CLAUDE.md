@@ -5,6 +5,7 @@ SaaS multi-tenant. Cliente piloto: Escolinha ABC (Gama-DF, ~54 crianças).
 Referência funcional (não copiar): App Minha Escola — ver docs/BENCHMARK-minha-escola.md.
 
 Leia docs/PRD.md antes de implementar qualquer feature.
+Leia docs/UX.md antes de criar ou alterar qualquer tela.
 
 ## Regras inegociáveis
 
@@ -36,6 +37,10 @@ Leia docs/PRD.md antes de implementar qualquer feature.
 - Validação: zod
 
 ## UX
+
+**docs/UX.md é obrigatório.** Toda tela nova ou alterada passa pelo checklist
+da seção 7 de docs/UX.md antes de ser dada como pronta. Ao terminar uma tela,
+liste quais itens do checklist foram verificados e como.
 
 - Interface 100% em português do Brasil.
 - Mobile-first: projetar para 360px de largura. A professora usa o celular
