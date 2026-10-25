@@ -1,6 +1,7 @@
 # UX.md — Regras de interface
 
 Base: Laws of UX (lawsofux.com), traduzidas em regras verificáveis.
+Valores de cor e fonte: styles/tokens.css e docs/MARCA.md.
 Toda tela nova ou alterada passa pelo checklist da seção 6 antes de ser
 considerada pronta. Se uma regra não puder ser cumprida, registre o motivo
 no PR.
@@ -118,7 +119,7 @@ Regra de desempate geral: **velocidade ganha de enfeite**.
 
 | Token      | Uso exclusivo                         |
 |------------|---------------------------------------|
-| primaria   | Ação principal, cor da escola         |
+| primaria   | Ação principal: `--escola-primaria` (cor da escola; fallback coral TiaConta) |
 | sucesso    | Finalizado, lido, completo            |
 | atencao    | Pendente, comeu pouco, trazer amanhã  |
 | alerta     | Febre, medicação, erro                |

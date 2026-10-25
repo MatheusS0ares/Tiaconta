@@ -1,4 +1,4 @@
-# PRD v2 — Agenda Escolar (multi-tenant)
+# PRD v2 — TiaConta (multi-tenant)
 
 Substitui o PRD v1 do repositório `escolinha-abc-diario`, que era cliente único.
 

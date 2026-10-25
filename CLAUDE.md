@@ -1,11 +1,13 @@
-# CLAUDE.md — Agenda Escolar (nome provisório)
+# CLAUDE.md — TiaConta
 
 App de agenda digital e gestão para creches e escolas de educação infantil.
 SaaS multi-tenant. Cliente piloto: Escolinha ABC (Gama-DF, ~54 crianças).
+Domínio: tiaconta.com.br · Instagram: @tiaconta.app
 Referência funcional (não copiar): App Minha Escola — ver docs/BENCHMARK-minha-escola.md.
 
 Leia docs/PRD.md antes de implementar qualquer feature.
 Leia docs/UX.md antes de criar ou alterar qualquer tela.
+Leia docs/MARCA.md antes de usar logo, cores ou textos da marca.
 
 ## Regras inegociáveis
 
@@ -43,6 +45,12 @@ da seção 7 de docs/UX.md antes de ser dada como pronta. Ao terminar uma tela,
 liste quais itens do checklist foram verificados e como.
 
 - Interface 100% em português do Brasil.
+- Cores só via tokens de `styles/tokens.css` (nada de hex solto em componente).
+- Logo só via `components/brand/Logo.tsx` ou `public/brand/*` — nunca redesenhar a Tia.
+- Dentro do app, a profissional é "professora" ou "educadora", nunca "tia".
+  "Tia" é só a personagem da marca (docs/MARCA.md).
+- Fontes: Fredoka (marca/títulos) e Nunito (texto) via `next/font/google`.
+- PWA: usar `public/manifest.webmanifest` e os ícones de `public/brand/`.
 - Mobile-first: projetar para 360px de largura. A professora usa o celular
   com uma mão, com criança no colo. Botões grandes, poucos toques.
 - Meta: registrar um item para uma criança em ≤ 2 toques; para a turma toda
@@ -77,6 +85,9 @@ app/
 lib/
   supabase/          # clients server/browser
   agenda/tipos.ts    # schemas zod por tipo de campo
+components/brand/     # Logo.tsx (já existe)
+styles/tokens.css     # tokens de cor (já existe)
+public/brand/         # SVG/PNG da marca (já existe)
 supabase/
   migrations/
   seed.sql

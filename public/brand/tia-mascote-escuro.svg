@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Mascote TiaConta">
+<circle cx="100" cy="34" r="20" fill="#FFC24B"/>
+<circle cx="100" cy="112" r="64" fill="#FFD6C4"/>
+<path d="M36 112 C36 66 66 48 100 48 C134 48 164 66 164 112 C152 90 130 80 100 80 C70 80 48 90 36 112 Z" fill="#FFC24B"/>
+<circle cx="76" cy="116" r="15" fill="none" stroke="#1F2A44" stroke-width="6"/>
+<circle cx="124" cy="116" r="15" fill="none" stroke="#1F2A44" stroke-width="6"/>
+<path d="M91 116 H109" stroke="#1F2A44" stroke-width="6" stroke-linecap="round"/>
+<path d="M76 144 Q100 168 124 144" fill="none" stroke="#1F2A44" stroke-width="8" stroke-linecap="round"/>
+<circle cx="60" cy="142" r="8" fill="#E5533A" opacity="0.5"/>
+<circle cx="140" cy="142" r="8" fill="#E5533A" opacity="0.5"/>
+</svg>

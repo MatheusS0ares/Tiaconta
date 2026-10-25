@@ -1,0 +1,44 @@
+/* Tokens da marca TiaConta. Importar em app/globals.css.
+   --escola-primaria é definido por tenant (escolas.cor_primaria) no layout da escola. */
+:root {
+  --tc-marinho: #1F2A44;      /* texto principal, cabelo da Tia */
+  --tc-coral: #E5533A;        /* destaque da marca (contraste 3.6:1 em branco: só texto ≥ 19px bold ou ícones) */
+  --tc-coral-claro: #FF8A6E;  /* coral sobre fundo escuro */
+  --tc-girassol: #FFC24B;     /* fundo do ícone, detalhes */
+  --tc-pele: #FFD6C4;
+  --tc-creme: #FFF3EC;        /* fundos suaves, splash */
+  --tc-texto-2: #5B6478;      /* texto secundário */
+  --tc-borda: #ECEEF3;
+
+  /* semântica (docs/UX.md seção 6) */
+  --cor-fundo: #FFFFFF;
+  --cor-superficie: var(--tc-creme);
+  --cor-texto: var(--tc-marinho);
+  --cor-texto-2: var(--tc-texto-2);
+  --cor-sucesso: #157A52;     /* 5.3:1 em branco */
+  --cor-atencao: #975A16;     /* 5.5:1 em branco */
+  --cor-alerta: #C53030;      /* 5.4:1 em branco */
+  --cor-neutra: var(--tc-borda);
+  --escola-primaria: var(--tc-coral);
+
+  --fonte-marca: "Fredoka", "Nunito", system-ui, sans-serif;
+  --fonte-texto: "Nunito", system-ui, sans-serif;
+  --raio: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cor-fundo: #141B2D;
+    --cor-superficie: #1F2A44;
+    --cor-texto: #FFFFFF;
+    --cor-texto-2: #C9D0DE;
+    --cor-neutra: #2C3857;
+  }
+}
+:root[data-theme="dark"] {
+  --cor-fundo: #141B2D;
+  --cor-superficie: #1F2A44;
+  --cor-texto: #FFFFFF;
+  --cor-texto-2: #C9D0DE;
+  --cor-neutra: #2C3857;
+}

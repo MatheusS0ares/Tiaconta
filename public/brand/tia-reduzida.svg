@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="TiaConta">
+<circle cx="100" cy="30" r="28" fill="#1F2A44"/>
+<circle cx="100" cy="114" r="70" fill="#FFD6C4"/>
+<path d="M30 114 C30 62 64 44 100 44 C136 44 170 62 170 114 C158 94 132 86 100 86 C68 86 42 94 30 114 Z" fill="#1F2A44"/>
+<circle cx="72" cy="124" r="18" fill="#1F2A44"/>
+<circle cx="128" cy="124" r="18" fill="#1F2A44"/>
+</svg>

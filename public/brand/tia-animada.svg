@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="TiaConta animada">
+<style>
+.bob{animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.coque{transform-box:fill-box;transform-origin:center bottom;animation:coque 3s ease-in-out infinite}
+@keyframes coque{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.08)}}
+.olho{transform-box:fill-box;transform-origin:center;animation:pisca 4s infinite}
+@keyframes pisca{0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(.1)}}
+.boch{animation:boch 4s ease-in-out infinite}
+@keyframes boch{0%,15%,85%,100%{opacity:.3}35%,65%{opacity:.7}}
+@media (prefers-reduced-motion: reduce){.bob,.coque,.olho,.boch{animation:none}}
+</style>
+<g class="bob">
+<circle class="coque" cx="100" cy="34" r="20" fill="#1F2A44"/>
+<circle cx="100" cy="112" r="64" fill="#FFD6C4"/>
+<path d="M36 112 C36 66 66 48 100 48 C134 48 164 66 164 112 C152 90 130 80 100 80 C70 80 48 90 36 112 Z" fill="#1F2A44"/>
+<circle class="olho" cx="76" cy="117" r="5" fill="#1F2A44"/>
+<circle class="olho" cx="124" cy="117" r="5" fill="#1F2A44"/>
+<circle cx="76" cy="116" r="15" fill="none" stroke="#1F2A44" stroke-width="5"/>
+<circle cx="124" cy="116" r="15" fill="none" stroke="#1F2A44" stroke-width="5"/>
+<path d="M91 116 H109" stroke="#1F2A44" stroke-width="5" stroke-linecap="round"/>
+<path d="M78 145 Q100 166 122 145" fill="none" stroke="#E5533A" stroke-width="7" stroke-linecap="round"/>
+<circle class="boch" cx="58" cy="142" r="8" fill="#E5533A"/>
+<circle class="boch" cx="142" cy="142" r="8" fill="#E5533A"/>
+</g>
+</svg>
