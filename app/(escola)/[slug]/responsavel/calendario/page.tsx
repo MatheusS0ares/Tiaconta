@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
-import { Baby, ChevronLeft, ChevronRight, CircleCheck, UserX } from "lucide-react";
+import { Baby, ChevronLeft, CircleCheck, UserX } from "lucide-react";
 import { Titulo } from "@/components/ui/Titulo";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { escolaAtual, clienteDaEscola } from "@/lib/escola";
@@ -94,7 +95,7 @@ export default async function Calendario({
         <h2 className="text-lg font-semibold first-letter:uppercase">{mesLongo.format(new Date(`${mes}-15T12:00:00Z`))}</h2>
         {mes < mesAtual ? (
           <Link href={`${base}&mes=${somarMes(mes, 1)}`} aria-label="Próximo mês" className="flex size-12 items-center justify-center rounded-full">
-            <ChevronRight className="size-6" aria-hidden />
+            <SetaLink className="size-6" />
           </Link>
         ) : (
           <span className="size-12" aria-hidden />

@@ -64,6 +64,11 @@ h1, h2, h3 {
   font-family: var(--fonte-marca);
 }
 
+@keyframes carregando {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(300%); }
+}
+
 /* UX.md: transições ≤ 200ms; respeitar "reduzir movimento" */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

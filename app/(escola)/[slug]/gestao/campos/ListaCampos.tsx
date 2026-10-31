@@ -1,8 +1,9 @@
 "use client";
 
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
 import { useOptimistic, useState, useTransition } from "react";
-import { ChevronDown, ChevronRight, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Aviso } from "@/components/ui/Aviso";
 import { alternarCampo, moverCampo } from "./actions";
 
@@ -65,7 +66,7 @@ export function ListaCampos({ slug, campos }: { slug: string; campos: CampoLista
                 <span className={`block font-bold ${c.ativo ? "" : "text-texto-2"}`}>{c.rotulo}</span>
                 <span className="block text-sm text-texto-2">{c.ativo ? c.descricao : "Desligado"}</span>
               </span>
-              <ChevronRight className="size-5 shrink-0 text-texto-2" aria-hidden />
+              <SetaLink className="size-5 shrink-0 text-texto-2" />
             </Link>
             <label className="flex min-h-12 min-w-12 cursor-pointer items-center justify-center">
               <span className="sr-only">{c.ativo ? `Desligar ${c.rotulo}` : `Ligar ${c.rotulo}`}</span>

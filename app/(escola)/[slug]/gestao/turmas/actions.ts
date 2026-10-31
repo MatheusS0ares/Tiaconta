@@ -1,12 +1,10 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { exigirPapel } from "@/lib/escola";
 import { criarClienteServidor } from "@/lib/supabase/server";
 
-export type EstadoForm = { erros?: Record<string, string>; erro?: string };
+export type EstadoForm = { erros?: Record<string, string>; erro?: string; destino?: string };
 
 const schema = z.object({
   nome: z.string().trim().min(2, "Dê um nome para a turma.").max(40, "Use até 40 letras."),
@@ -49,8 +47,7 @@ export async function salvarTurma(slug: string, id: string | null, _: EstadoForm
       .insert(novas.map((user_id) => ({ turma_id: turmaId!, escola_id: escola.id, user_id })));
   }
 
-  revalidatePath(`/${slug}/gestao`, "layout");
-  redirect(`/${slug}/gestao/turmas`);
+  return { destino: `/${slug}/gestao/turmas` };
 }
 
 export async function alternarArquivoTurma(slug: string, id: string, ativar: boolean, _: EstadoForm): Promise<EstadoForm> {
@@ -65,6 +62,5 @@ export async function alternarArquivoTurma(slug: string, id: string, ativar: boo
     if (count) return { erro: `A turma ainda tem ${count} ${count === 1 ? "criança" : "crianças"}. Mude-as de turma antes de arquivar.` };
   }
   await supabase.from("turmas").update({ ativa: ativar }).eq("id", id).eq("escola_id", escola.id);
-  revalidatePath(`/${slug}/gestao`, "layout");
-  redirect(`/${slug}/gestao/turmas`);
+  return { destino: `/${slug}/gestao/turmas` };
 }

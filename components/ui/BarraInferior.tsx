@@ -37,6 +37,13 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
     )
     .sort((a, b) => b.tamanho - a.tamanho)[0]?.href;
   return (
+    <>
+    {/* troca de aba em andamento: barra fina no topo (a tela anterior continua visível) */}
+    {tocado ? (
+      <div role="progressbar" aria-label="Carregando" className="fixed inset-x-0 top-0 z-40 h-1 overflow-hidden bg-neutra">
+        <div className="h-full w-1/3 animate-[carregando_1s_ease-in-out_infinite] bg-primaria" />
+      </div>
+    ) : null}
     <nav
       aria-label="Navegação principal"
       className="fixed inset-x-0 bottom-0 z-20 border-t border-neutra bg-fundo pb-[env(safe-area-inset-bottom)]"
@@ -49,7 +56,7 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
             <li key={item.href} className="flex-1">
               <Link
                 href={item.href}
-                onClick={() => setTocado(item.href)}
+                onClick={() => item.href !== ativoAtual && setTocado(item.href)}
                 aria-current={ativo ? "page" : undefined}
                 className={
                   "flex min-h-16 flex-col items-center justify-center gap-1 text-sm font-bold " +
@@ -64,5 +71,6 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
         })}
       </ul>
     </nav>
+    </>
   );
 }

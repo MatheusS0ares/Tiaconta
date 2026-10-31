@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, School } from "lucide-react";
+import { School } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { Botao } from "@/components/ui/Botao";
@@ -52,7 +53,7 @@ export default async function EscolherEscola() {
                       {ORDEM_PAPEIS.filter((p) => e.papeis.includes(p)).map((p) => NOME_DO_PAPEL[p]).join(" · ")}
                     </span>
                   </span>
-                  <ChevronRight className="size-6 text-texto-2" aria-hidden />
+                  <SetaLink className="size-6 text-texto-2" />
                 </Link>
               </li>
             ))}

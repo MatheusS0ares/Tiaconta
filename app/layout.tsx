@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { fredoka, nunito } from "./fontes";
 import { RegistrarSW } from "@/components/RegistrarSW";
+import { Hidratado } from "@/components/Hidratado";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-dvh antialiased">
         {children}
         <RegistrarSW />
+        <Hidratado />
       </body>
     </html>
   );

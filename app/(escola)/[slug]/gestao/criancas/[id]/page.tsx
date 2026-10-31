@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, Clock, UserPlus } from "lucide-react";
+import { Clock, UserPlus } from "lucide-react";
 import { Titulo } from "@/components/ui/Titulo";
 import { Cartao } from "@/components/ui/Cartao";
 import { Aviso } from "@/components/ui/Aviso";
@@ -13,6 +14,7 @@ import { urlsAssinadas } from "@/lib/fotos";
 import { formatarValidade } from "@/lib/convites";
 import { FormCrianca } from "../FormCrianca";
 import { FotoCrianca } from "./FotoCrianca";
+import { FormDestino } from "@/components/ui/FormDestino";
 import { alternarArquivoCrianca, removerFoto, removerResponsavel } from "../actions";
 
 export const metadata: Metadata = { title: "Criança" };
@@ -111,7 +113,7 @@ export default async function EditarCrianca({
                     <span className="block font-bold">Convite {c.parentesco ? `(${c.parentesco})` : ""} aguardando</span>
                     vale até {formatarValidade(c.expira_em)}
                   </span>
-                  <ChevronRight className="size-5 text-texto-2" aria-hidden />
+                  <SetaLink className="size-5 text-texto-2" />
                 </Link>
               </li>
             ))}
@@ -136,13 +138,13 @@ export default async function EditarCrianca({
       </section>
 
       <section className="border-t border-neutra pt-4">
-        <form action={alternarArquivoCrianca.bind(null, slug, crianca.id, !crianca.ativa)}>
+        <FormDestino acao={alternarArquivoCrianca.bind(null, slug, crianca.id, !crianca.ativa)}>
           {crianca.ativa ? (
             <BotaoConfirmar>Arquivar criança</BotaoConfirmar>
           ) : (
             <BotaoEnviar variante="secundaria">Reativar criança</BotaoEnviar>
           )}
-        </form>
+        </FormDestino>
       </section>
     </>
   );

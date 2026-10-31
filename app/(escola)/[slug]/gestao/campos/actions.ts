@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { exigirPapel } from "@/lib/escola";
@@ -8,7 +7,7 @@ import { criarClienteServidor } from "@/lib/supabase/server";
 import { OPCOES_POR_TIPO, TIPOS_COM_OPCOES, type TipoCampo } from "@/lib/agenda/tipos";
 import type { Json } from "@/lib/supabase/database.types";
 
-export type EstadoForm = { erros?: Record<string, string>; erro?: string };
+export type EstadoForm = { erros?: Record<string, string>; erro?: string; destino?: string };
 
 export async function alternarCampo(slug: string, id: string, ativo: boolean) {
   const escola = await exigirPapel(slug, "gestor");
@@ -121,8 +120,7 @@ export async function salvarCampo(slug: string, id: string, _: EstadoForm, form:
     .eq("escola_id", escola.id);
   if (error) return { erro: "Não conseguimos salvar. Tente de novo." };
 
-  revalidatePath(`/${slug}/gestao/campos`);
-  redirect(`/${slug}/gestao/campos`);
+  return { destino: `/${slug}/gestao/campos` };
 }
 
 export async function criarCamposPadrao(slug: string) {

@@ -1,13 +1,11 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { exigirPapel } from "@/lib/escola";
 import { criarClienteServidor } from "@/lib/supabase/server";
 import { PARENTESCOS } from "@/lib/convites";
 
-export type EstadoConvite = { erro?: string };
+export type EstadoConvite = { erro?: string; destino?: string };
 
 const schema = z.discriminatedUnion("papel", [
   z.object({
@@ -36,8 +34,7 @@ export async function criarConvite(slug: string, _: EstadoConvite, form: FormDat
     .single();
   if (error || !data) return { erro: "Não conseguimos criar o convite. Tente de novo." };
 
-  revalidatePath(`/${slug}/gestao/equipe`);
-  redirect(`/${slug}/gestao/equipe/convite/${data.id}`);
+  return { destino: `/${slug}/gestao/equipe/convite/${data.id}` };
 }
 
 export async function revogarConvite(slug: string, id: string) {
@@ -49,6 +46,5 @@ export async function revogarConvite(slug: string, id: string) {
     .eq("id", id)
     .eq("escola_id", escola.id)
     .is("aceito_em", null);
-  revalidatePath(`/${slug}/gestao/equipe`);
-  redirect(`/${slug}/gestao/equipe`);
+  return { destino: `/${slug}/gestao/equipe` };
 }

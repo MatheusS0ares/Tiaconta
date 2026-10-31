@@ -7,6 +7,7 @@ import { BotaoEnviar } from "@/components/ui/BotaoEnviar";
 import { Aviso } from "@/components/ui/Aviso";
 import { FAIXAS } from "@/lib/agenda/tipos";
 import { salvarTurma, type EstadoForm } from "./actions";
+import { useDestino } from "@/components/ui/useDestino";
 
 type Props = {
   slug: string;
@@ -17,6 +18,7 @@ type Props = {
 export function FormTurma({ slug, turma, professoras }: Props) {
   const [estado, acao] = useActionState<EstadoForm, FormData>(salvarTurma.bind(null, slug, turma?.id ?? null), {});
   const erros = estado.erros ?? {};
+  const saindo = useDestino(estado.destino);
   return (
     <form action={acao} className="flex flex-col gap-6">
       <Campo rotulo="Nome da turma" name="nome" defaultValue={turma?.nome} placeholder="Ex.: Berçário I" required erro={erros.nome} />
@@ -41,7 +43,9 @@ export function FormTurma({ slug, turma, professoras }: Props) {
       )}
       {estado.erro ? <Aviso tipo="erro">{estado.erro}</Aviso> : null}
       <div className="sticky bottom-20 bg-fundo pt-2">
-        <BotaoEnviar textoEnviando="Salvando…">{turma ? "Salvar turma" : "Criar turma"}</BotaoEnviar>
+        <BotaoEnviar textoEnviando="Salvando…" disabled={saindo}>
+          {saindo ? "Salvo!" : turma ? "Salvar turma" : "Criar turma"}
+        </BotaoEnviar>
       </div>
     </form>
   );

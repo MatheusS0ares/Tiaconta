@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
-import { ArrowLeftRight, ChevronRight, School } from "lucide-react";
+import { ArrowLeftRight, School } from "lucide-react";
 import { AreaPapel } from "@/components/ui/AreaPapel";
 import { Cartao } from "@/components/ui/Cartao";
 import { BotaoSair } from "@/components/ui/BotaoSair";
@@ -52,7 +53,7 @@ export default async function Perfil({
               >
                 <ArrowLeftRight className="size-5" aria-hidden />
                 <span className="flex-1">Ir para {NOME_DO_PAPEL[p]}</span>
-                <ChevronRight className="size-5 text-texto-2" aria-hidden />
+                <SetaLink className="size-5 text-texto-2" />
               </Link>
             </li>
           ))}
@@ -64,7 +65,7 @@ export default async function Perfil({
               >
                 <School className="size-5" aria-hidden />
                 <span className="flex-1">Trocar de escola</span>
-                <ChevronRight className="size-5 text-texto-2" aria-hidden />
+                <SetaLink className="size-5 text-texto-2" />
               </Link>
             </li>
           ) : null}
