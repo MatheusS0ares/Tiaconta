@@ -15,13 +15,12 @@ import { StatusCrianca } from "./StatusCrianca";
 /** Entradas que aparecem já abertas: um toque registra (UX.md: ≤ 2 toques). */
 const SEMPRE_ABERTA = new Set(["opcao", "sim_nao", "evento"]);
 
-export function TelaCrianca({ slug, criancaId }: { slug: string; criancaId: string }) {
-  const { estado, acoes } = useAgenda();
+export function TelaCrianca({ criancaId }: { criancaId: string }) {
+  const { estado, acoes, base: voltar } = useAgenda();
   const [confirmarFinalizar, setConfirmarFinalizar] = useState(false);
   const crianca = estado.criancas.find((c) => c.id === criancaId);
   if (!crianca) notFound();
 
-  const voltar = `/${slug}/professora/turma/${estado.turma.id}`;
   const status = statusDa(estado, crianca.id);
   const dia = estado.dias[crianca.id];
   const editavel = diaEditavel(estado, crianca.id);

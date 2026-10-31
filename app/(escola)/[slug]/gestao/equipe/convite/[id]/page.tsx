@@ -9,6 +9,7 @@ import { classesBotao } from "@/components/ui/Botao";
 import { exigirPapel, clienteDaEscola } from "@/lib/escola";
 import { formatarValidade, linkDoConvite, linkWhatsApp, mensagemDoConvite } from "@/lib/convites";
 import { revogarConvite } from "../../actions";
+import { FormDestino } from "@/components/ui/FormDestino";
 
 export const metadata: Metadata = { title: "Convite" };
 
@@ -53,11 +54,11 @@ export default async function Convite({ params }: { params: Promise<{ slug: stri
                 : "Convite vencido."}
         </p>
         {pendente ? (
-          <form action={revogarConvite.bind(null, slug, c.id)}>
+          <FormDestino acao={revogarConvite.bind(null, slug, c.id)}>
             <button type="submit" className="min-h-12 font-bold text-alerta underline underline-offset-4">
               Cancelar convite
             </button>
-          </form>
+          </FormDestino>
         ) : null}
       </Cartao>
 

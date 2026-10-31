@@ -9,6 +9,7 @@ import { BotaoEnviar } from "@/components/ui/BotaoEnviar";
 import { Aviso } from "@/components/ui/Aviso";
 import { FAIXAS, GRUPOS, MAX_OPCOES, NOME_TIPO, TIPOS_COM_OPCOES, type TipoCampo } from "@/lib/agenda/tipos";
 import { salvarCampo, type EstadoForm } from "../actions";
+import { useDestino } from "@/components/ui/useDestino";
 
 type Props = {
   slug: string;
@@ -32,6 +33,7 @@ type Props = {
 export function FormCampo({ slug, campo }: Props) {
   const [estado, acao] = useActionState<EstadoForm, FormData>(salvarCampo.bind(null, slug, campo.id), {});
   const erros = estado.erros ?? {};
+  const saindo = useDestino(estado.destino);
   const [opcoes, setOpcoes] = useState(campo.opcoes.length ? campo.opcoes : [""]);
   const max = MAX_OPCOES[campo.tipo] ?? 0;
   const temOpcoes = TIPOS_COM_OPCOES.includes(campo.tipo);
@@ -188,7 +190,9 @@ export function FormCampo({ slug, campo }: Props) {
 
       {estado.erro ? <Aviso tipo="erro">{estado.erro}</Aviso> : null}
       <div className="sticky bottom-20 bg-fundo pt-2">
-        <BotaoEnviar textoEnviando="Salvando…">Salvar campo</BotaoEnviar>
+        <BotaoEnviar textoEnviando="Salvando…" disabled={saindo}>
+          {saindo ? "Salvo!" : "Salvar campo"}
+        </BotaoEnviar>
       </div>
     </form>
   );

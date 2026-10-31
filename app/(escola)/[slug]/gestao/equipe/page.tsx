@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
-import { ChevronRight, Clock, UserPlus, Users } from "lucide-react";
+import { Clock, UserPlus, Users } from "lucide-react";
 import { Titulo } from "@/components/ui/Titulo";
 import { Cartao } from "@/components/ui/Cartao";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
@@ -68,7 +69,7 @@ export default async function Equipe({ params }: { params: Promise<{ slug: strin
                     </span>
                     <span className="block text-sm text-texto-2">Aguardando · vale até {formatarValidade(c.expira_em)}</span>
                   </span>
-                  <ChevronRight className="size-5 text-texto-2" aria-hidden />
+                  <SetaLink className="size-5 text-texto-2" />
                 </Link>
               </li>
             ))}

@@ -8,6 +8,7 @@ import { Interruptor } from "@/components/ui/Interruptor";
 import { BotaoEnviar } from "@/components/ui/BotaoEnviar";
 import { Aviso } from "@/components/ui/Aviso";
 import { salvarCrianca, type EstadoForm } from "./actions";
+import { useDestino } from "@/components/ui/useDestino";
 
 type Crianca = {
   id: string;
@@ -32,6 +33,7 @@ export function FormCrianca({
 }) {
   const [estado, acao] = useActionState<EstadoForm, FormData>(salvarCrianca.bind(null, slug, crianca?.id ?? null), {});
   const erros = estado.erros ?? {};
+  const saindo = useDestino(estado.destino);
   const hoje = new Date().toISOString().slice(0, 10);
 
   return (
@@ -77,7 +79,9 @@ export function FormCrianca({
       {estado.erro ? <Aviso tipo="erro">{estado.erro}</Aviso> : null}
       {estado.ok ? <Aviso tipo="sucesso">Dados salvos.</Aviso> : null}
       <div className="sticky bottom-20 bg-fundo pt-2">
-        <BotaoEnviar textoEnviando="Salvando…">{crianca ? "Salvar" : "Cadastrar criança"}</BotaoEnviar>
+        <BotaoEnviar textoEnviando="Salvando…" disabled={saindo}>
+          {saindo ? "Salvo!" : crianca ? "Salvar" : "Cadastrar criança"}
+        </BotaoEnviar>
       </div>
     </form>
   );

@@ -27,5 +27,9 @@ export default async function LayoutTurma({
     eGestor: escola.papeis.includes("gestor"),
   });
   if (!dados) notFound();
-  return <AgendaProvider dados={dados}>{children}</AgendaProvider>;
+  return (
+    <AgendaProvider dados={dados} base={`/${slug}/professora/turma/${turmaId}`}>
+      {children}
+    </AgendaProvider>
+  );
 }

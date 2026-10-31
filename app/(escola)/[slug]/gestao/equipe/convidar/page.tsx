@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
-import { Baby, ChevronRight, GraduationCap, School } from "lucide-react";
+import { Baby, GraduationCap, School } from "lucide-react";
 import { Titulo } from "@/components/ui/Titulo";
 import { Escolha } from "@/components/ui/Escolha";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
@@ -37,14 +38,14 @@ export default async function Convidar({
             <Link href={`${base}?papel=professora`} className={linha}>
               <GraduationCap className="size-7" aria-hidden />
               <span className="flex-1">Professora</span>
-              <ChevronRight className="size-6 text-texto-2" aria-hidden />
+              <SetaLink className="size-6 text-texto-2" />
             </Link>
           </li>
           <li>
             <Link href={`${base}?papel=responsavel`} className={linha}>
               <Baby className="size-7" aria-hidden />
               <span className="flex-1">Responsável por uma criança</span>
-              <ChevronRight className="size-6 text-texto-2" aria-hidden />
+              <SetaLink className="size-6 text-texto-2" />
             </Link>
           </li>
         </ul>
@@ -94,7 +95,7 @@ export default async function Convidar({
               <li key={t.id}>
                 <Link href={`${base}?papel=responsavel&turma=${t.id}`} className={linha}>
                   <span className="flex-1">{t.nome}</span>
-                  <ChevronRight className="size-6 text-texto-2" aria-hidden />
+                  <SetaLink className="size-6 text-texto-2" />
                 </Link>
               </li>
             ))}

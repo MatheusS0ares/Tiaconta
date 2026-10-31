@@ -1,13 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { exigirPapel } from "@/lib/escola";
 import { criarClienteServidor } from "@/lib/supabase/server";
 import { BUCKET_FOTOS } from "@/lib/fotos";
 
-export type EstadoForm = { erros?: Record<string, string>; erro?: string; ok?: boolean };
+export type EstadoForm = { erros?: Record<string, string>; erro?: string; ok?: boolean; destino?: string };
 
 const textoOpcional = z
   .string()
@@ -54,16 +53,15 @@ export async function salvarCrianca(slug: string, id: string | null, _: EstadoFo
     .select("id")
     .single();
   if (error || !data) return { erro: "Não conseguimos cadastrar. Tente de novo." };
-  revalidatePath(`/${slug}/gestao`, "layout");
-  redirect(`/${slug}/gestao/criancas/${data.id}?nova=1`);
+  // navegação pelo cliente (useDestino): redirect + revalidatePath travava o formulário às vezes
+  return { destino: `/${slug}/gestao/criancas/${data.id}?nova=1` };
 }
 
 export async function alternarArquivoCrianca(slug: string, id: string, ativar: boolean) {
   const escola = await exigirPapel(slug, "gestor");
   const supabase = await criarClienteServidor();
   await supabase.from("criancas").update({ ativa: ativar }).eq("id", id).eq("escola_id", escola.id);
-  revalidatePath(`/${slug}/gestao`, "layout");
-  redirect(`/${slug}/gestao/criancas`);
+  return { destino: `/${slug}/gestao/criancas` };
 }
 
 const TIPOS_FOTO = ["image/jpeg", "image/png", "image/webp"];

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { SetaLink } from "@/components/ui/SetaLink";
+import { type LucideIcon } from "lucide-react";
 
 export type LinkLista = { href: string; rotulo: string; descricao?: string; icone?: LucideIcon };
 
@@ -14,7 +15,7 @@ export function ListaLinks({ itens }: { itens: LinkLista[] }) {
               <span className="block font-bold">{rotulo}</span>
               {descricao ? <span className="block text-sm text-texto-2">{descricao}</span> : null}
             </span>
-            <ChevronRight className="size-5 shrink-0 text-texto-2" aria-hidden />
+            <SetaLink className="size-5 shrink-0 text-texto-2" />
           </Link>
         </li>
       ))}

@@ -17,10 +17,9 @@ const VISIVEIS = 5; // UX.md, Hick: no máximo 5 opções visíveis
  * Registro em lote: campo → valor → quem (todos por padrão) → registrar.
  * Meta UX.md: turma toda em ≤ 4 toques.
  */
-export function FluxoLote({ slug }: { slug: string }) {
-  const { estado, acoes } = useAgenda();
+export function FluxoLote() {
+  const { estado, acoes, base: voltarLista } = useAgenda();
   const router = useRouter();
-  const voltarLista = `/${slug}/professora/turma/${estado.turma.id}`;
   const [campo, setCampo] = useState<CampoDia | null>(null);
   const [valor, setValor] = useState<unknown>(null);
   const [verTodos, setVerTodos] = useState(false);

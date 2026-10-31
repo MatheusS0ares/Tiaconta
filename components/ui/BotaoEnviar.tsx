@@ -2,6 +2,7 @@
 
 import { LoaderCircle } from "lucide-react";
 import { useFormStatus } from "react-dom";
+import { useEffect, useState } from "react";
 import { Botao } from "./Botao";
 import type { ComponentProps } from "react";
 
@@ -12,8 +13,12 @@ export function BotaoEnviar({
   ...props
 }: ComponentProps<typeof Botao> & { textoEnviando?: string }) {
   const { pending } = useFormStatus();
+  // Até a página hidratar, o envio nativo pode ser abortado pela hidratação
+  // (visto nos testes): o botão só libera quando o React está no controle.
+  const [pronto, setPronto] = useState(false);
+  useEffect(() => setPronto(true), []);
   return (
-    <Botao type="submit" disabled={pending || props.disabled} aria-busy={pending} {...props}>
+    <Botao type="submit" {...props} disabled={!pronto || pending || props.disabled} aria-busy={pending}>
       {pending ? (
         <>
           <LoaderCircle className="size-5 animate-spin" aria-hidden />

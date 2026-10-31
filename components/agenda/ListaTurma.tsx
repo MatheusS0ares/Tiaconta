@@ -1,8 +1,9 @@
 "use client";
 
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronRight, CircleCheck, ListPlus } from "lucide-react";
+import { CircleCheck, ListPlus } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { classesBotao } from "@/components/ui/Botao";
 import { horaDe } from "@/lib/agenda/data";
@@ -10,11 +11,10 @@ import { progresso, statusDa } from "@/lib/agenda/modelo";
 import { useAgenda } from "./AgendaProvider";
 import { StatusCrianca } from "./StatusCrianca";
 
-export function ListaTurma({ slug }: { slug: string }) {
-  const { estado, acoes } = useAgenda();
+export function ListaTurma() {
+  const { estado, acoes, base } = useAgenda();
   const [confirmando, setConfirmando] = useState(false);
   const p = progresso(estado);
-  const base = `/${slug}/professora/turma/${estado.turma.id}`;
   const todasFinalizadas = p.total > 0 && p.finalizadas === p.total;
   const prontaParaFinalizar = p.pendentes.length === 0;
   const finalizacao = todasFinalizadas
@@ -49,7 +49,7 @@ export function ListaTurma({ slug }: { slug: string }) {
                   <span className="block font-bold">{c.nome}</span>
                   <StatusCrianca status={status} detalhe={n && status !== "faltou" ? `${n} ${n === 1 ? "registro" : "registros"}` : undefined} />
                 </span>
-                <ChevronRight className="size-5 text-texto-2" aria-hidden />
+                <SetaLink className="size-5 text-texto-2" />
               </Link>
             </li>
           );

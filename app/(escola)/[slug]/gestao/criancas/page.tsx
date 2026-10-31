@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { SetaLink } from "@/components/ui/SetaLink";
 import Link from "next/link";
-import { Baby, ChevronRight, Plus } from "lucide-react";
+import { Baby, Plus } from "lucide-react";
 import { Titulo } from "@/components/ui/Titulo";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { BotaoLink } from "@/components/ui/Botao";
@@ -83,7 +84,7 @@ export default async function Criancas({
                     <span className="block font-bold">{c.nome}</span>
                     <span className="block text-sm text-texto-2">{detalhes.join(" · ")}</span>
                   </span>
-                  <ChevronRight className="size-5 text-texto-2" aria-hidden />
+                  <SetaLink className="size-5 text-texto-2" />
                 </Link>
               </li>
             );
