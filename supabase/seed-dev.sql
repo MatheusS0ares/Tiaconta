@@ -9,6 +9,7 @@
 --   pai.davi@exemplo.com       responsavel  Davi (Berçário I)
 --   mae.lara@exemplo.com       responsavel  Lara e Theo (irmãos, turmas diferentes)
 --   gestor@outra.exemplo       gestor       Escola Outra (para testar isolamento)
+--   (ana também é professora na Escola Outra, para testar a escolha de escola)
 
 -- ---------------------------------------------------------------- usuários (auth)
 insert into auth.users (
@@ -62,7 +63,8 @@ join (values
   ('escolinha-abc', 'd0000000-0000-0000-0000-000000000003'::uuid, 'professora'),
   ('escolinha-abc', 'd0000000-0000-0000-0000-000000000004'::uuid, 'responsavel'),
   ('escolinha-abc', 'd0000000-0000-0000-0000-000000000005'::uuid, 'responsavel'),
-  ('escola-outra',  'd0000000-0000-0000-0000-000000000006'::uuid, 'gestor')
+  ('escola-outra',  'd0000000-0000-0000-0000-000000000006'::uuid, 'gestor'),
+  ('escola-outra',  'd0000000-0000-0000-0000-000000000002'::uuid, 'professora')
 ) as m(slug, user_id, papel) on m.slug = e.slug
 on conflict do nothing;
 

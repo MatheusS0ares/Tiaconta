@@ -1,9 +1,12 @@
-import { Logo } from "@/components/brand/Logo";
+import { redirect } from "next/navigation";
+import { exigirUsuario, minhasEscolas, precisaBoasVindas } from "@/lib/auth/sessao";
 
-export default function Inicio() {
-  return (
-    <main className="flex min-h-dvh items-center justify-center bg-superficie p-4">
-      <Logo size={64} />
-    </main>
-  );
+/** Entrada do app: decide para onde o usuário vai depois do login. */
+export default async function Inicio() {
+  await exigirUsuario("/");
+  if (await precisaBoasVindas()) redirect("/boas-vindas");
+
+  const escolas = await minhasEscolas();
+  if (escolas.length === 1) redirect(`/${escolas[0]!.slug}`);
+  redirect("/escolher-escola");
 }
