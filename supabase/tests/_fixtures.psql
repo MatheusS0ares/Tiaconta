@@ -39,6 +39,15 @@ insert into auth.users (id, email, aud, role) values
   ('bbbbbbbb-0000-0000-0000-000000000001', 'gestor_b@teste', 'authenticated', 'authenticated'),
   ('bbbbbbbb-0000-0000-0000-000000000002', 'prof_b@teste',   'authenticated', 'authenticated');
 
+insert into perfis (user_id, nome) values
+  ('aaaaaaaa-0000-0000-0000-000000000001', 'Gestor A'),
+  ('aaaaaaaa-0000-0000-0000-000000000002', 'Prof A'),
+  ('aaaaaaaa-0000-0000-0000-000000000003', 'Prof A2'),
+  ('aaaaaaaa-0000-0000-0000-000000000004', 'Pai A1'),
+  ('aaaaaaaa-0000-0000-0000-000000000005', 'Mãe A2'),
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Gestor B'),
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'Prof B');
+
 insert into escolas (id, nome, slug) values
   ('aaaaaaaa-1111-0000-0000-000000000000', 'Escola A (teste)', 'teste-escola-a'),
   ('bbbbbbbb-1111-0000-0000-000000000000', 'Escola B (teste)', 'teste-escola-b');
