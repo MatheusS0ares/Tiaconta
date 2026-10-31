@@ -1,12 +1,11 @@
 import { CabecalhoTurma } from "@/components/agenda/CabecalhoTurma";
 import { ListaTurma } from "@/components/agenda/ListaTurma";
 
-export default async function TelaTurma({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default function TelaTurma() {
   return (
     <>
-      <CabecalhoTurma slug={slug} />
-      <ListaTurma slug={slug} />
+      <CabecalhoTurma />
+      <ListaTurma />
     </>
   );
 }

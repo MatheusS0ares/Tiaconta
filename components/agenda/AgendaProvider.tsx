@@ -19,7 +19,7 @@ type Acoes = {
   salvarMural: (texto: string) => void;
 };
 
-type Ctx = { estado: TurmaDia; acoes: Acoes; pendentes: number; semRede: boolean };
+type Ctx = { estado: TurmaDia; acoes: Acoes; pendentes: number; semRede: boolean; /** rota da lista do dia (professora ou gestão) */ base: string; /** volta para fora da turma (painel) */ voltar?: string };
 const AgendaCtx = createContext<Ctx | null>(null);
 
 export function useAgenda() {
@@ -55,7 +55,7 @@ function paraOpAgenda(op: Operacao): OpAgenda {
  * (UI otimista). Fica no layout da turma, então lista, criança, lote e mural
  * compartilham o mesmo estado.
  */
-export function AgendaProvider({ dados, children }: { dados: TurmaDia; children: ReactNode }) {
+export function AgendaProvider({ dados, base, voltar, children }: { dados: TurmaDia; base: string; voltar?: string; children: ReactNode }) {
   const router = useRouter();
   const { mostrar } = useToast();
   const chave = `${dados.turma.id}:${dados.data}`;
@@ -185,7 +185,7 @@ export function AgendaProvider({ dados, children }: { dados: TurmaDia; children:
   }, [chave, dados.data, dados.turma.id, dados.turma.nome, enfileirar, mostrar]);
 
   return (
-    <AgendaCtx.Provider value={{ estado, acoes, pendentes: fila.length, semRede }}>
+    <AgendaCtx.Provider value={{ estado, acoes, pendentes: fila.length, semRede, base, voltar }}>
       {fila.length > 0 && semRede ? (
         <div role="status" className="flex items-center gap-2 bg-superficie px-4 py-2 text-sm font-semibold text-atencao">
           <CloudOff className="size-4 shrink-0" aria-hidden />
