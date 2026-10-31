@@ -22,7 +22,7 @@ export function Interruptor({
         className={
           "relative h-8 w-14 shrink-0 rounded-full bg-neutra transition-colors duration-150 " +
           "after:absolute after:left-1 after:top-1 after:size-6 after:rounded-full after:bg-fundo after:shadow after:transition-transform after:duration-150 " +
-          "peer-checked:bg-sucesso peer-checked:after:translate-x-6 " +
+          "peer-checked:bg-texto peer-checked:after:translate-x-6 " +
           "peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-texto"
         }
       />
