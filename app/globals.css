@@ -7,7 +7,8 @@
  * escola sobrescreve com a cor de maior contraste para escolas.cor_primaria.
  */
 :root {
-  --escola-primaria-texto: #FFFFFF;
+  --tc-branco: #FFFFFF;
+  --escola-primaria-texto: var(--tc-branco);
   --fonte-marca: var(--font-fredoka), "Nunito", system-ui, sans-serif;
   --fonte-texto: var(--font-nunito), system-ui, sans-serif;
 }
@@ -39,6 +40,7 @@
   --color-girassol: var(--tc-girassol);
   --color-creme: var(--tc-creme);
   --color-borda: var(--tc-borda);
+  --color-branco: var(--tc-branco);
 
   --font-marca: var(--fonte-marca);
   --font-texto: var(--fonte-texto);

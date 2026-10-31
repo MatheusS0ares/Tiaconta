@@ -109,6 +109,38 @@ isOneToOne: false
       referencedColumns: ["id","escola_id"]
     }
                   ]
+                },"convites": {
+                  Row: {
+                    "aceito_em": string | null,"aceito_por": string | null,"criado_em": string,"criado_por": string | null,"crianca_id": string | null,"escola_id": string,"expira_em": string,"id": string,"papel": Database["public"]['Enums']["papel_membro"],"parentesco": string | null,"revogado_em": string | null,"token": string,"turma_id": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "aceito_em"?: string | null,"aceito_por"?: string | null,"criado_em"?: string,"criado_por"?: string | null,"crianca_id"?: string | null,"escola_id": string,"expira_em"?: string,"id"?: string,"papel": Database["public"]['Enums']["papel_membro"],"parentesco"?: string | null,"revogado_em"?: string | null,"token"?: string,"turma_id"?: string | null
+                  }
+                  Update: {
+                    "aceito_em"?: string | null,"aceito_por"?: string | null,"criado_em"?: string,"criado_por"?: string | null,"crianca_id"?: string | null,"escola_id"?: string,"expira_em"?: string,"id"?: string,"papel"?: Database["public"]['Enums']["papel_membro"],"parentesco"?: string | null,"revogado_em"?: string | null,"token"?: string,"turma_id"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "convites_crianca_id_escola_id_fkey"
+      columns: ["crianca_id","escola_id"]
+isOneToOne: false
+      referencedRelation: "criancas"
+      referencedColumns: ["id","escola_id"]
+    },{
+      foreignKeyName: "convites_escola_id_fkey"
+      columns: ["escola_id"]
+isOneToOne: false
+      referencedRelation: "escolas"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "convites_turma_id_escola_id_fkey"
+      columns: ["turma_id","escola_id"]
+isOneToOne: false
+      referencedRelation: "turmas"
+      referencedColumns: ["id","escola_id"]
+    }
+                  ]
                 },"criancas": {
                   Row: {
                     "ativa": boolean,"autoriza_imagem": boolean,"data_nascimento": string | null,"escola_id": string,"foto_path": string | null,"id": string,"nome": string,"observacoes_saude": string | null,"restricoes_alimentares": string | null,"turma_id": string | null
@@ -171,14 +203,14 @@ isOneToOne: false
                   ]
                 },"perfis": {
                   Row: {
-                    "criado_em": string,"nome": string,"telefone": string | null,"user_id": string
+                    "consentimento_em": string | null,"criado_em": string,"nome": string,"telefone": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "criado_em"?: string,"nome": string,"telefone"?: string | null,"user_id": string
+                    "consentimento_em"?: string | null,"criado_em"?: string,"nome": string,"telefone"?: string | null,"user_id": string
                   }
                   Update: {
-                    "criado_em"?: string,"nome"?: string,"telefone"?: string | null,"user_id"?: string
+                    "consentimento_em"?: string | null,"criado_em"?: string,"nome"?: string,"telefone"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     
@@ -269,7 +301,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "criar_campos_padrao":
+            "aceitar_convite":
+{ Args: { "p_token": string }; Returns: string
+                           },
+"criar_campos_padrao":
 { Args: { "p_escola": string }; Returns: undefined
                            },
 "fn_dia_editavel":
@@ -293,11 +328,19 @@ isOneToOne: false
 "fn_e_responsavel_na_turma":
 { Args: { "p_turma": string }; Returns: boolean
                            },
+"fn_perfil_visivel":
+{ Args: { "p_user": string }; Returns: boolean
+                           },
 "fn_tem_papel":
 { Args: { "p_escola": string,"p_papeis": (Database["public"]['Enums']["papel_membro"])[] }; Returns: boolean
                            },
 "registrar_em_lote":
 { Args: { "p_campo": string,"p_data": string,"p_exceto"?: (string)[],"p_turma": string,"p_valor": Json }; Returns: number
+                           },
+"ver_convite":
+{ Args: { "p_token": string }; Returns: {
+              "crianca_nome": string,"escola_cor_primaria": string,"escola_logo_url": string,"escola_nome": string,"escola_slug": string,"papel": Database["public"]['Enums']["papel_membro"],"situacao": string,"turma_nome": string
+            }[]
                            }
           }
           Enums: {
