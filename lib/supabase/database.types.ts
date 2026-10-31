@@ -328,6 +328,18 @@ isOneToOne: false
 "fn_e_responsavel_na_turma":
 { Args: { "p_turma": string }; Returns: boolean
                            },
+"fn_foto_crianca_da_escola":
+{ Args: { "p_name": string }; Returns: boolean
+                           },
+"fn_foto_editavel":
+{ Args: { "p_name": string }; Returns: boolean
+                           },
+"fn_foto_partes":
+{ Args: { "p_name": string }; Returns: Record<string, unknown>
+                           },
+"fn_foto_visivel":
+{ Args: { "p_name": string }; Returns: boolean
+                           },
 "fn_perfil_visivel":
 { Args: { "p_user": string }; Returns: boolean
                            },

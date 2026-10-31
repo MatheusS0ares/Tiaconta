@@ -4,8 +4,14 @@ import type { ItemBarra } from "@/components/ui/BarraInferior";
 export function itensGestao(slug: string): ItemBarra[] {
   return [
     { href: `/${slug}/gestao`, rotulo: "Painel", icone: "inicio", exato: true },
-    { href: `/${slug}/gestao/equipe`, rotulo: "Equipe", icone: "equipe" },
-    { href: `/${slug}/perfil?papel=gestor`, rotulo: "Perfil", icone: "perfil" },
+    { href: `/${slug}/gestao/turmas`, rotulo: "Turmas", icone: "turma" },
+    { href: `/${slug}/gestao/criancas`, rotulo: "Crianças", icone: "criancas" },
+    {
+      href: `/${slug}/gestao/mais`,
+      rotulo: "Mais",
+      icone: "mais",
+      ativoEm: [`/${slug}/gestao/equipe`, `/${slug}/gestao/campos`, `/${slug}/perfil`],
+    },
   ];
 }
 

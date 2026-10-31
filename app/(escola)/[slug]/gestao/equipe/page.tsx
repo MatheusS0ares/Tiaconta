@@ -47,7 +47,7 @@ export default async function Equipe({ params }: { params: Promise<{ slug: strin
 
   return (
     <>
-      <Titulo>Equipe</Titulo>
+      <Titulo voltar={`/${slug}/gestao/mais`}>Equipe</Titulo>
 
       {convites.data.length > 0 ? (
         <section className="flex flex-col gap-3" aria-labelledby="pendentes">
