@@ -19,10 +19,10 @@ export default async function Convidar({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ papel?: string; turma?: string }>;
+  searchParams: Promise<{ papel?: string; turma?: string; crianca?: string }>;
 }) {
   const { slug } = await params;
-  const { papel, turma } = await searchParams;
+  const { papel, turma, crianca: criancaPadrao } = await searchParams;
   const escola = await exigirPapel(slug, "gestor");
   const supabase = await clienteDaEscola();
   const base = `/${slug}/gestao/equipe/convidar`;
@@ -137,7 +137,14 @@ export default async function Convidar({
                 key={c.id}
                 className="flex min-h-14 cursor-pointer items-center gap-3 rounded-tc border-2 border-neutra px-4 font-semibold has-[:checked]:border-primaria"
               >
-                <input type="radio" name="crianca_id" value={c.id} required className="size-5 accent-[var(--escola-primaria)]" />
+                <input
+                  type="radio"
+                  name="crianca_id"
+                  value={c.id}
+                  required
+                  defaultChecked={c.id === criancaPadrao}
+                  className="size-5 accent-[var(--escola-primaria)]"
+                />
                 {c.nome}
               </label>
             ))}

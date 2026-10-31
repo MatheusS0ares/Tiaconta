@@ -4,6 +4,10 @@ import type { NextConfig } from "next";
 const supabase = new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://127.0.0.1:54321");
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // fotos são reduzidas no navegador (~800px) antes do envio; margem para PNG
+    serverActions: { bodySizeLimit: "3mb" },
+  },
   images: {
     remotePatterns: [
       {
