@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/*
+ * Complementos de tokens.css (não duplicar valores de marca aqui).
+ * --escola-primaria-texto: cor do texto sobre --escola-primaria; o layout da
+ * escola sobrescreve com a cor de maior contraste para escolas.cor_primaria.
+ */
+:root {
+  --escola-primaria-texto: #FFFFFF;
+  --fonte-marca: var(--font-fredoka), "Nunito", system-ui, sans-serif;
+  --fonte-texto: var(--font-nunito), system-ui, sans-serif;
+}
+
+/*
+ * Mapeamento dos tokens no Tailwind v4. A paleta padrão do Tailwind é
+ * desligada (--color-*: initial) para que só existam cores da marca e
+ * semânticas: bg-primaria, text-sucesso, border-neutra etc.
+ */
+@theme inline {
+  --color-*: initial;
+
+  /* semânticas (docs/UX.md seção 6) */
+  --color-primaria: var(--escola-primaria);
+  --color-primaria-texto: var(--escola-primaria-texto);
+  --color-sucesso: var(--cor-sucesso);
+  --color-atencao: var(--cor-atencao);
+  --color-alerta: var(--cor-alerta);
+  --color-neutra: var(--cor-neutra);
+  --color-fundo: var(--cor-fundo);
+  --color-superficie: var(--cor-superficie);
+  --color-texto: var(--cor-texto);
+  --color-texto-2: var(--cor-texto-2);
+
+  /* marca (docs/MARCA.md) */
+  --color-marinho: var(--tc-marinho);
+  --color-coral: var(--tc-coral);
+  --color-coral-claro: var(--tc-coral-claro);
+  --color-girassol: var(--tc-girassol);
+  --color-creme: var(--tc-creme);
+  --color-borda: var(--tc-borda);
+
+  --font-marca: var(--fonte-marca);
+  --font-texto: var(--fonte-texto);
+  --font-sans: var(--fonte-texto);
+
+  --radius-tc: var(--raio);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 {
+  font-family: var(--fonte-marca);
+}
+
+/* UX.md: transições ≤ 200ms; respeitar "reduzir movimento" */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

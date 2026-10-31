@@ -1,8 +1,32 @@
+# dependências
 node_modules/
+/.pnp
+.pnp.*
+
+# next.js
 .next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# testes
+/coverage
+
+# env (nunca commitar segredos; .env.example é versionado)
 .env
-.env.local
+.env.*
+!.env.example
+
+# deploy
 .vercel
+
+# logs / sistema
 *.log
+npm-debug.log*
 .DS_Store
+*.pem
+
+# supabase
 supabase/.temp/
+supabase/.branches/

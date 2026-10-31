@@ -1,0 +1,98 @@
+-- _fixtures.psql — incluído por cada teste com \ir (não é um teste: extensão
+-- diferente de .sql). Roda dentro da transação do teste e é desfeito no rollback.
+--
+-- Escola A                                   Escola B
+--   gestor_a, prof_a, prof_a2                  gestor_b, prof_b
+--   pai_a1 → crianca a1   pai_a2 → crianca a2
+--   turma A1 (bercario): a1, a2, a3           turma B1: b1
+
+create extension if not exists pgtap with schema extensions;
+
+create schema if not exists testes;
+
+-- Atua como usuário autenticado (auth.uid() = p_user) com RLS valendo.
+create or replace function testes.entrar(p_user uuid) returns void language plpgsql as $$
+begin
+  perform set_config('request.jwt.claims',
+    json_build_object('sub', p_user, 'role', 'authenticated')::text, true);
+  perform set_config('request.jwt.claim.sub', p_user::text, true);
+  execute 'set local role authenticated';
+end $$;
+
+-- Volta a ser o dono do banco (RLS ignorado) para preparar/conferir dados.
+create or replace function testes.sair() returns void language plpgsql as $$
+begin
+  execute 'reset role';
+  perform set_config('request.jwt.claims', '', true);
+  perform set_config('request.jwt.claim.sub', '', true);
+end $$;
+
+grant usage on schema testes to authenticated;
+grant execute on all functions in schema testes to authenticated;
+
+insert into auth.users (id, email, aud, role) values
+  ('aaaaaaaa-0000-0000-0000-000000000001', 'gestor_a@teste', 'authenticated', 'authenticated'),
+  ('aaaaaaaa-0000-0000-0000-000000000002', 'prof_a@teste',   'authenticated', 'authenticated'),
+  ('aaaaaaaa-0000-0000-0000-000000000003', 'prof_a2@teste',  'authenticated', 'authenticated'),
+  ('aaaaaaaa-0000-0000-0000-000000000004', 'pai_a1@teste',   'authenticated', 'authenticated'),
+  ('aaaaaaaa-0000-0000-0000-000000000005', 'pai_a2@teste',   'authenticated', 'authenticated'),
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'gestor_b@teste', 'authenticated', 'authenticated'),
+  ('bbbbbbbb-0000-0000-0000-000000000002', 'prof_b@teste',   'authenticated', 'authenticated');
+
+insert into escolas (id, nome, slug) values
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'Escola A (teste)', 'teste-escola-a'),
+  ('bbbbbbbb-1111-0000-0000-000000000000', 'Escola B (teste)', 'teste-escola-b');
+select criar_campos_padrao('aaaaaaaa-1111-0000-0000-000000000000');
+select criar_campos_padrao('bbbbbbbb-1111-0000-0000-000000000000');
+
+insert into membros (escola_id, user_id, papel) values
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000001', 'gestor'),
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000002', 'professora'),
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000003', 'professora'),
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000004', 'responsavel'),
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000005', 'responsavel'),
+  ('bbbbbbbb-1111-0000-0000-000000000000', 'bbbbbbbb-0000-0000-0000-000000000001', 'gestor'),
+  ('bbbbbbbb-1111-0000-0000-000000000000', 'bbbbbbbb-0000-0000-0000-000000000002', 'professora');
+
+insert into turmas (id, escola_id, nome, faixa) values
+  ('aaaaaaaa-2222-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-000000000000', 'Turma A1', 'bercario'),
+  ('bbbbbbbb-2222-0000-0000-000000000001', 'bbbbbbbb-1111-0000-0000-000000000000', 'Turma B1', 'bercario');
+
+insert into turma_professoras (turma_id, escola_id, user_id) values
+  ('aaaaaaaa-2222-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000002'),
+  ('bbbbbbbb-2222-0000-0000-000000000001', 'bbbbbbbb-1111-0000-0000-000000000000', 'bbbbbbbb-0000-0000-0000-000000000002');
+
+insert into criancas (id, escola_id, turma_id, nome) values
+  ('aaaaaaaa-3333-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-2222-0000-0000-000000000001', 'Criança A1'),
+  ('aaaaaaaa-3333-0000-0000-000000000002', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-2222-0000-0000-000000000001', 'Criança A2'),
+  ('aaaaaaaa-3333-0000-0000-000000000003', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-2222-0000-0000-000000000001', 'Criança A3'),
+  ('bbbbbbbb-3333-0000-0000-000000000001', 'bbbbbbbb-1111-0000-0000-000000000000', 'bbbbbbbb-2222-0000-0000-000000000001', 'Criança B1');
+
+insert into responsaveis_criancas (crianca_id, escola_id, user_id, parentesco) values
+  ('aaaaaaaa-3333-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000004', 'pai'),
+  ('aaaaaaaa-3333-0000-0000-000000000002', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000005', 'mãe');
+
+-- Agenda de hoje: almoço "Comeu tudo" para toda a turma A1 e B1 (registrado
+-- pelas professoras), mural nas duas turmas e um registro de campo oculto
+-- para o responsável na criança a1.
+select testes.entrar('aaaaaaaa-0000-0000-0000-000000000002');
+select registrar_em_lote('aaaaaaaa-2222-0000-0000-000000000001', current_date,
+  (select id from agenda_campos where escola_id = 'aaaaaaaa-1111-0000-0000-000000000000' and chave = 'almoco'),
+  '{"opcao": "Comeu tudo"}');
+insert into turma_dias (escola_id, turma_id, data, mural) values
+  ('aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-2222-0000-0000-000000000001', current_date, 'Mural A1');
+select testes.entrar('bbbbbbbb-0000-0000-0000-000000000002');
+select registrar_em_lote('bbbbbbbb-2222-0000-0000-000000000001', current_date,
+  (select id from agenda_campos where escola_id = 'bbbbbbbb-1111-0000-0000-000000000000' and chave = 'almoco'),
+  '{"opcao": "Comeu tudo"}');
+insert into turma_dias (escola_id, turma_id, data, mural) values
+  ('bbbbbbbb-1111-0000-0000-000000000000', 'bbbbbbbb-2222-0000-0000-000000000001', current_date, 'Mural B1');
+select testes.sair();
+
+update agenda_campos set visivel_responsavel = false
+where escola_id = 'aaaaaaaa-1111-0000-0000-000000000000' and chave = 'medicacao';
+insert into agenda_registros (escola_id, agenda_dia_id, campo_id, valor, registrado_por)
+select d.escola_id, d.id, c.id, '{"hora": "10:00", "obs": "interno"}', 'aaaaaaaa-0000-0000-0000-000000000002'
+from agenda_dias d
+join agenda_campos c on c.escola_id = d.escola_id and c.chave = 'medicacao'
+where d.crianca_id = 'aaaaaaaa-3333-0000-0000-000000000001' and d.data = current_date;
