@@ -2,7 +2,7 @@
 
 Base: Laws of UX (lawsofux.com), traduzidas em regras verificáveis.
 Valores de cor e fonte: styles/tokens.css e docs/MARCA.md.
-Toda tela nova ou alterada passa pelo checklist da seção 6 antes de ser
+Toda tela nova ou alterada passa pelo checklist da seção 7 antes de ser
 considerada pronta. Se uma regra não puder ser cumprida, registre o motivo
 no PR.
 

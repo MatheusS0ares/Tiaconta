@@ -43,4 +43,3 @@ marcadas por criança.
 - Painel do gestor (vídeos/tutoriais públicos, site)
 - Avaliações negativas na Play Store/App Store
 - Preço praticado
-EOF
