@@ -21,7 +21,8 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
     >
       <ul className="mx-auto flex max-w-xl">
         {itens.slice(0, 4).map((item) => {
-          const ativo = item.exato ? pathname === item.href : pathname === item.href || pathname.startsWith(item.href + "/");
+          const caminho = item.href.split("?")[0]!;
+          const ativo = item.exato ? pathname === caminho : pathname === caminho || pathname.startsWith(caminho + "/");
           const Icone = ICONES[item.icone];
           return (
             <li key={item.href} className="flex-1">
