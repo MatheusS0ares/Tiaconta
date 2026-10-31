@@ -19,6 +19,18 @@ export const FAIXAS: { valor: FaixaEtaria; rotulo: string }[] = [
 ];
 export const NOME_FAIXA = Object.fromEntries(FAIXAS.map((f) => [f.valor, f.rotulo])) as Record<FaixaEtaria, string>;
 
+export type GrupoCampo = Database["public"]["Enums"]["grupo_campo"];
+
+/** Cards do resumo do responsável (UX.md §4). */
+export const GRUPOS: { valor: GrupoCampo; rotulo: string }[] = [
+  { valor: "dia", rotulo: "Como foi o dia (topo)" },
+  { valor: "alimentacao", rotulo: "Alimentação" },
+  { valor: "sono", rotulo: "Sono" },
+  { valor: "cuidados", rotulo: "Higiene e saúde" },
+  { valor: "recados", rotulo: "Recado para a família" },
+  { valor: "trazer", rotulo: "Trazer amanhã" },
+];
+
 /** Como a escola entende cada tipo (sem jargão de sistema). */
 export const NOME_TIPO: Record<TipoCampo, string> = {
   opcao: "Escolha uma opção",

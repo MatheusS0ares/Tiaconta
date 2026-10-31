@@ -25,14 +25,14 @@ export type Database = {
           Tables: {
             "agenda_campos": {
                   Row: {
-                    "ativo": boolean,"chave": string,"escola_id": string,"faixas": (Database["public"]['Enums']["faixa_etaria"])[] | null,"id": string,"multiplo": boolean,"opcoes": NonNullable<Json>,"ordem": number,"rotulo": string,"tipo": Database["public"]['Enums']["tipo_campo"],"visivel_responsavel": boolean
+                    "ativo": boolean,"chave": string,"destaque": string | null,"escola_id": string,"faixas": (Database["public"]['Enums']["faixa_etaria"])[] | null,"grupo": Database["public"]['Enums']["grupo_campo"],"id": string,"multiplo": boolean,"opcoes": NonNullable<Json>,"ordem": number,"pede_visto": boolean,"rotulo": string,"tipo": Database["public"]['Enums']["tipo_campo"],"visivel_responsavel": boolean
                   }
                   ComputedFields: never
                   Insert: {
-                    "ativo"?: boolean,"chave": string,"escola_id": string,"faixas"?: (Database["public"]['Enums']["faixa_etaria"])[] | null,"id"?: string,"multiplo"?: boolean,"opcoes"?: NonNullable<Json>,"ordem"?: number,"rotulo": string,"tipo": Database["public"]['Enums']["tipo_campo"],"visivel_responsavel"?: boolean
+                    "ativo"?: boolean,"chave": string,"destaque"?: string | null,"escola_id": string,"faixas"?: (Database["public"]['Enums']["faixa_etaria"])[] | null,"grupo"?: Database["public"]['Enums']["grupo_campo"],"id"?: string,"multiplo"?: boolean,"opcoes"?: NonNullable<Json>,"ordem"?: number,"pede_visto"?: boolean,"rotulo": string,"tipo": Database["public"]['Enums']["tipo_campo"],"visivel_responsavel"?: boolean
                   }
                   Update: {
-                    "ativo"?: boolean,"chave"?: string,"escola_id"?: string,"faixas"?: (Database["public"]['Enums']["faixa_etaria"])[] | null,"id"?: string,"multiplo"?: boolean,"opcoes"?: NonNullable<Json>,"ordem"?: number,"rotulo"?: string,"tipo"?: Database["public"]['Enums']["tipo_campo"],"visivel_responsavel"?: boolean
+                    "ativo"?: boolean,"chave"?: string,"destaque"?: string | null,"escola_id"?: string,"faixas"?: (Database["public"]['Enums']["faixa_etaria"])[] | null,"grupo"?: Database["public"]['Enums']["grupo_campo"],"id"?: string,"multiplo"?: boolean,"opcoes"?: NonNullable<Json>,"ordem"?: number,"pede_visto"?: boolean,"rotulo"?: string,"tipo"?: Database["public"]['Enums']["tipo_campo"],"visivel_responsavel"?: boolean
                   }
                   Relationships: [
                     {
@@ -106,6 +106,26 @@ isOneToOne: false
       columns: ["campo_id","escola_id"]
 isOneToOne: false
       referencedRelation: "agenda_campos"
+      referencedColumns: ["id","escola_id"]
+    }
+                  ]
+                },"agenda_vistos": {
+                  Row: {
+                    "escola_id": string,"registro_id": string,"user_id": string,"visto_em": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "escola_id": string,"registro_id": string,"user_id"?: string,"visto_em"?: string
+                  }
+                  Update: {
+                    "escola_id"?: string,"registro_id"?: string,"user_id"?: string,"visto_em"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "agenda_vistos_registro_id_escola_id_fkey"
+      columns: ["registro_id","escola_id"]
+isOneToOne: false
+      referencedRelation: "agenda_registros"
       referencedColumns: ["id","escola_id"]
     }
                   ]
@@ -367,6 +387,12 @@ isOneToOne: false
 "fn_pode_registrar_turma":
 { Args: { "p_turma": string }; Returns: boolean
                            },
+"fn_registro_pede_visto":
+{ Args: { "p_registro": string }; Returns: boolean
+                           },
+"fn_registro_visivel_responsavel":
+{ Args: { "p_registro": string }; Returns: boolean
+                           },
 "fn_tem_papel":
 { Args: { "p_escola": string,"p_papeis": (Database["public"]['Enums']["papel_membro"])[] }; Returns: boolean
                            },
@@ -392,7 +418,7 @@ isOneToOne: false
                            }
           }
           Enums: {
-            "faixa_etaria": "bercario"|"maternal"|"pre_escola"|"fundamental","papel_membro": "gestor"|"professora"|"responsavel","status_dia": "rascunho"|"finalizado","tipo_campo": "opcao"|"sim_nao"|"evento"|"intervalo"|"quantidade"|"texto"|"checklist"
+            "faixa_etaria": "bercario"|"maternal"|"pre_escola"|"fundamental","grupo_campo": "dia"|"alimentacao"|"sono"|"cuidados"|"recados"|"trazer","papel_membro": "gestor"|"professora"|"responsavel","status_dia": "rascunho"|"finalizado","tipo_campo": "opcao"|"sim_nao"|"evento"|"intervalo"|"quantidade"|"texto"|"checklist"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -512,7 +538,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "faixa_etaria": ["bercario", "maternal", "pre_escola", "fundamental"],"papel_membro": ["gestor", "professora", "responsavel"],"status_dia": ["rascunho", "finalizado"],"tipo_campo": ["opcao", "sim_nao", "evento", "intervalo", "quantidade", "texto", "checklist"]
+            "faixa_etaria": ["bercario", "maternal", "pre_escola", "fundamental"],"grupo_campo": ["dia", "alimentacao", "sono", "cuidados", "recados", "trazer"],"papel_membro": ["gestor", "professora", "responsavel"],"status_dia": ["rascunho", "finalizado"],"tipo_campo": ["opcao", "sim_nao", "evento", "intervalo", "quantidade", "texto", "checklist"]
           }
         }
 } as const
