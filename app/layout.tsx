@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { fredoka, nunito } from "./fontes";
+import { RegistrarSW } from "@/components/RegistrarSW";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +29,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={`${fredoka.variable} ${nunito.variable}`}>
-      <body className="min-h-dvh antialiased">{children}</body>
+      <body className="min-h-dvh antialiased">
+        {children}
+        <RegistrarSW />
+      </body>
     </html>
   );
 }
