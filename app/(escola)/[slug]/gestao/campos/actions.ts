@@ -50,6 +50,15 @@ const base = z.object({
   faixas: z.array(z.enum(["bercario", "maternal", "pre_escola", "fundamental"])),
   visivel_responsavel: z.boolean(),
   multiplo: z.boolean(),
+  grupo: z.enum(["dia", "alimentacao", "sono", "cuidados", "recados", "trazer"]),
+  destaque: z.enum(["nenhum", "atencao", "alerta"]).transform((d) => (d === "nenhum" ? null : d)),
+  pede_visto: z.boolean(),
+  destaque_opcoes: z.array(z.string()),
+  destaque_acima: z
+    .string()
+    .transform((t) => t.replace(",", ".").trim())
+    .refine((t) => t === "" || !Number.isNaN(Number(t)), "Use um número. Ex.: 37,5")
+    .transform((t) => (t === "" ? null : Number(t))),
 });
 
 export async function salvarCampo(slug: string, id: string, _: EstadoForm, form: FormData): Promise<EstadoForm> {
@@ -68,6 +77,11 @@ export async function salvarCampo(slug: string, id: string, _: EstadoForm, form:
     faixas: form.getAll("faixas"),
     visivel_responsavel: form.get("visivel_responsavel") === "on",
     multiplo: form.get("multiplo") === "on",
+    grupo: form.get("grupo") ?? "cuidados",
+    destaque: form.get("destaque") ?? "nenhum",
+    pede_visto: form.get("pede_visto") === "on",
+    destaque_opcoes: form.getAll("destaque_opcoes").map(String),
+    destaque_acima: String(form.get("destaque_acima") ?? ""),
   });
   const tipo = campo.tipo as TipoCampo;
   const brutoOpcoes: Record<string, unknown> = {};
@@ -84,6 +98,13 @@ export async function salvarCampo(slug: string, id: string, _: EstadoForm, form:
 
   // preserva chaves de configuração que esta tela não edita
   const novasOpcoes: { [k: string]: Json | undefined } = { ...(campo.opcoes as Record<string, Json>), ...opcoes.data };
+  // condições de destaque (lib/agenda/excecao.ts): só opções que existem
+  const lista = (opcoes.data as { opcoes?: string[] }).opcoes ?? [];
+  const destaqueOpcoes = dados.data.destaque_opcoes.filter((o) => lista.includes(o));
+  if (destaqueOpcoes.length) novasOpcoes.destaque_opcoes = destaqueOpcoes;
+  else delete novasOpcoes.destaque_opcoes;
+  if (tipo === "quantidade" && dados.data.destaque_acima !== null) novasOpcoes.destaque_acima = dados.data.destaque_acima;
+  else delete novasOpcoes.destaque_acima;
   const { error } = await supabase
     .from("agenda_campos")
     .update({
@@ -91,6 +112,9 @@ export async function salvarCampo(slug: string, id: string, _: EstadoForm, form:
       faixas: dados.data.faixas.length ? dados.data.faixas : null, // nenhuma = todas as faixas
       visivel_responsavel: dados.data.visivel_responsavel,
       multiplo: dados.data.multiplo,
+      grupo: dados.data.grupo,
+      destaque: dados.data.destaque,
+      pede_visto: dados.data.pede_visto,
       opcoes: novasOpcoes,
     })
     .eq("id", id)

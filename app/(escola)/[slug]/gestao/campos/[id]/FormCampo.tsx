@@ -7,7 +7,7 @@ import { Escolha } from "@/components/ui/Escolha";
 import { Interruptor } from "@/components/ui/Interruptor";
 import { BotaoEnviar } from "@/components/ui/BotaoEnviar";
 import { Aviso } from "@/components/ui/Aviso";
-import { FAIXAS, MAX_OPCOES, NOME_TIPO, TIPOS_COM_OPCOES, type TipoCampo } from "@/lib/agenda/tipos";
+import { FAIXAS, GRUPOS, MAX_OPCOES, NOME_TIPO, TIPOS_COM_OPCOES, type TipoCampo } from "@/lib/agenda/tipos";
 import { salvarCampo, type EstadoForm } from "../actions";
 
 type Props = {
@@ -21,6 +21,11 @@ type Props = {
     faixas: string[];
     visivel_responsavel: boolean;
     multiplo: boolean;
+    grupo: string;
+    destaque: string | null;
+    pedeVisto: boolean;
+    destaqueOpcoes: string[];
+    destaqueAcima: string;
   };
 };
 
@@ -30,6 +35,8 @@ export function FormCampo({ slug, campo }: Props) {
   const [opcoes, setOpcoes] = useState(campo.opcoes.length ? campo.opcoes : [""]);
   const max = MAX_OPCOES[campo.tipo] ?? 0;
   const temOpcoes = TIPOS_COM_OPCOES.includes(campo.tipo);
+  const [destaque, setDestaque] = useState(campo.destaque ?? "nenhum");
+  const opcoesValidas = opcoes.map((o) => o.trim()).filter(Boolean);
 
   return (
     <form action={acao} className="flex flex-col gap-6">
@@ -108,6 +115,76 @@ export function FormCampo({ slug, campo }: Props) {
           descricao="Ex.: trocas de fralda, mamadeiras."
         />
       </div>
+
+
+      <fieldset className="flex flex-col gap-4 rounded-tc border-2 border-neutra p-4">
+        <legend className="px-1 font-bold">No resumo da família</legend>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="grupo" className="font-bold">
+            Aparece no card
+          </label>
+          {/* select: configuração rara da gestão, 6 cards (UX.md: acima de 5 opções, agrupar) */}
+          <select
+            id="grupo"
+            name="grupo"
+            defaultValue={campo.grupo}
+            className="min-h-12 rounded-tc border-2 border-neutra bg-fundo px-3 text-base focus:border-texto focus:outline-none"
+          >
+            {GRUPOS.map((g) => (
+              <option key={g.valor} value={g.valor}>
+                {g.rotulo}
+              </option>
+            ))}
+          </select>
+        </div>
+        <fieldset className="flex flex-col gap-3">
+          <legend className="mb-3 font-bold">Destacar para a família</legend>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { valor: "nenhum", rotulo: "Nunca" },
+              { valor: "atencao", rotulo: "Atenção" },
+              { valor: "alerta", rotulo: "Alerta" },
+            ].map((o) => (
+              <label
+                key={o.valor}
+                className="flex min-h-12 cursor-pointer items-center rounded-full border-2 border-neutra px-4 font-semibold has-[:checked]:border-primaria has-[:checked]:bg-primaria has-[:checked]:text-primaria-texto has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-texto"
+              >
+                <input type="radio" name="destaque" value={o.valor} checked={destaque === o.valor} onChange={() => setDestaque(o.valor)} className="sr-only" />
+                {o.rotulo}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        {destaque !== "nenhum" && (campo.tipo === "opcao" || campo.tipo === "evento") && opcoesValidas.length ? (
+          <Escolha
+            legenda={
+              <>
+                Só quando for <span className="font-normal text-texto-2">(nenhuma = qualquer registro)</span>
+              </>
+            }
+            name="destaque_opcoes"
+            multipla
+            opcoes={opcoesValidas.map((o) => ({ valor: o, rotulo: o }))}
+            padroes={campo.destaqueOpcoes}
+          />
+        ) : null}
+        {destaque !== "nenhum" && campo.tipo === "quantidade" ? (
+          <Campo
+            rotulo="Só acima de (opcional)"
+            name="destaque_acima"
+            inputMode="decimal"
+            defaultValue={campo.destaqueAcima}
+            placeholder="Ex.: 37,5"
+            erro={erros.destaque_acima}
+          />
+        ) : null}
+        <Interruptor
+          name="pede_visto"
+          defaultChecked={campo.pedeVisto}
+          rotulo="Pedir Visto da família"
+          descricao="A família confirma que leu (ex.: trazer amanhã)."
+        />
+      </fieldset>
 
       {estado.erro ? <Aviso tipo="erro">{estado.erro}</Aviso> : null}
       <div className="sticky bottom-20 bg-fundo pt-2">
