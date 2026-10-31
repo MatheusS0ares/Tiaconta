@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeftRight, ChevronRight, School } from "lucide-react";
 import { AreaPapel } from "@/components/ui/AreaPapel";
 import { Cartao } from "@/components/ui/Cartao";
-import { Botao } from "@/components/ui/Botao";
+import { BotaoSair } from "@/components/ui/BotaoSair";
 import { Titulo } from "@/components/ui/Titulo";
 import { escolaAtual } from "@/lib/escola";
 import { meuPerfil, minhasEscolas, obterUsuario } from "@/lib/auth/sessao";
@@ -71,11 +71,9 @@ export default async function Perfil({
         </ul>
       ) : null}
 
-      <form action="/sair" method="post" className="mt-auto pt-6">
-        <Botao type="submit" variante="secundaria">
-          Sair
-        </Botao>
-      </form>
+      <div className="mt-auto pt-6">
+        <BotaoSair />
+      </div>
     </AreaPapel>
   );
 }
