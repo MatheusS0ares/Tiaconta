@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Baby, House, Menu, School, UserRound, Users, type LucideIcon } from "lucide-react";
+import { Baby, CalendarDays, House, Menu, School, UserRound, Users, type LucideIcon } from "lucide-react";
 
-const ICONES = { inicio: House, turma: School, criancas: Baby, equipe: Users, perfil: UserRound, mais: Menu } satisfies Record<
+const ICONES = { inicio: House, turma: School, criancas: Baby, equipe: Users, perfil: UserRound, mais: Menu, calendario: CalendarDays } satisfies Record<
   string,
   LucideIcon
 >;
@@ -25,6 +25,17 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
   // Resposta imediata ao toque (< 400ms): marca o item tocado antes da página chegar.
   const [tocado, setTocado] = useState<string | null>(null);
   useEffect(() => setTocado(null), [pathname]);
+
+  // Item ativo = o que casa com o caminho mais específico (ex.: /responsavel/calendario
+  // ganha de /responsavel; /responsavel/<criança> fica com /responsavel).
+  const casa = (c: string, exato?: boolean) => pathname === c || (!exato && pathname.startsWith(c + "/"));
+  const ativoAtual = itens
+    .flatMap((item) =>
+      [item.href.split("?")[0]!, ...(item.ativoEm ?? [])]
+        .filter((c, i) => casa(c, i === 0 ? item.exato : false))
+        .map((c) => ({ href: item.href, tamanho: c.length })),
+    )
+    .sort((a, b) => b.tamanho - a.tamanho)[0]?.href;
   return (
     <nav
       aria-label="Navegação principal"
@@ -32,12 +43,7 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
     >
       <ul className="mx-auto flex max-w-xl">
         {itens.slice(0, 4).map((item) => {
-          const caminho = item.href.split("?")[0]!;
-          const ativo = tocado
-            ? tocado === item.href
-            : item.exato
-              ? pathname === caminho
-              : [caminho, ...(item.ativoEm ?? [])].some((c) => pathname === c || pathname.startsWith(c + "/"));
+          const ativo = tocado ? tocado === item.href : item.href === ativoAtual;
           const Icone = ICONES[item.icone];
           return (
             <li key={item.href} className="flex-1">

@@ -25,6 +25,7 @@ export function itensProfessora(slug: string): ItemBarra[] {
 export function itensResponsavel(slug: string): ItemBarra[] {
   return [
     { href: `/${slug}/responsavel`, rotulo: "Hoje", icone: "inicio" },
+    { href: `/${slug}/responsavel/calendario`, rotulo: "Calendário", icone: "calendario" },
     { href: `/${slug}/perfil?papel=responsavel`, rotulo: "Perfil", icone: "perfil" },
   ];
 }
