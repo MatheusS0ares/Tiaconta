@@ -3,14 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Baby, House, School, UserRound, Users, type LucideIcon } from "lucide-react";
+import { Baby, House, Menu, School, UserRound, Users, type LucideIcon } from "lucide-react";
 
-const ICONES = { inicio: House, turma: School, criancas: Baby, equipe: Users, perfil: UserRound } satisfies Record<
+const ICONES = { inicio: House, turma: School, criancas: Baby, equipe: Users, perfil: UserRound, mais: Menu } satisfies Record<
   string,
   LucideIcon
 >;
 
-export type ItemBarra = { href: string; rotulo: string; icone: keyof typeof ICONES; exato?: boolean };
+export type ItemBarra = {
+  href: string;
+  rotulo: string;
+  icone: keyof typeof ICONES;
+  exato?: boolean;
+  /** outros caminhos em que este item aparece ativo (ex.: "Mais") */
+  ativoEm?: string[];
+};
 
 /** Navegação inferior (UX.md, Jakob): no máximo 4 itens, alvo ≥ 48px. */
 export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
@@ -30,7 +37,7 @@ export function BarraInferior({ itens }: { itens: ItemBarra[] }) {
             ? tocado === item.href
             : item.exato
               ? pathname === caminho
-              : pathname === caminho || pathname.startsWith(caminho + "/");
+              : [caminho, ...(item.ativoEm ?? [])].some((c) => pathname === c || pathname.startsWith(c + "/"));
           const Icone = ICONES[item.icone];
           return (
             <li key={item.href} className="flex-1">

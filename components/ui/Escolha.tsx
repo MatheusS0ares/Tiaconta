@@ -10,12 +10,19 @@ export function Escolha({
   opcoes,
   padrao,
   obrigatorio,
+  multipla,
+  padroes,
+  erro,
 }: {
   legenda: ReactNode;
   name: string;
   opcoes: { valor: string; rotulo: string }[];
   padrao?: string;
   obrigatorio?: boolean;
+  /** várias opções (checkbox) em vez de uma (radio) */
+  multipla?: boolean;
+  padroes?: string[];
+  erro?: string;
 }) {
   return (
     <fieldset className="flex flex-col gap-3">
@@ -31,17 +38,18 @@ export function Escolha({
             }
           >
             <input
-              type="radio"
+              type={multipla ? "checkbox" : "radio"}
               name={name}
               value={o.valor}
-              defaultChecked={padrao === o.valor}
-              required={obrigatorio}
+              defaultChecked={multipla ? padroes?.includes(o.valor) : padrao === o.valor}
+              required={!multipla && obrigatorio}
               className="sr-only"
             />
             {o.rotulo}
           </label>
         ))}
       </div>
+      {erro ? <p className="text-sm font-semibold text-alerta">{erro}</p> : null}
     </fieldset>
   );
 }
