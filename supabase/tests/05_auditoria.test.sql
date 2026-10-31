@@ -26,7 +26,9 @@ select is((select registrado_por from agenda_registros where agenda_dia_id = :'d
 select ok((select registrado_em > now() - interval '1 minute' from agenda_registros
            where agenda_dia_id = :'dia_a2' and campo_id = :'campo_nota'), 'registrado_em é sempre o horário do servidor');
 
--- outra professora edita: autor original fica, atualizado_por registra a edição
+-- outra professora da mesma turma edita: autor original fica, atualizado_por registra a edição
+insert into turma_professoras (turma_id, escola_id, user_id)
+values ('aaaaaaaa-2222-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-000000000000', 'aaaaaaaa-0000-0000-0000-000000000003');
 select testes.entrar('aaaaaaaa-0000-0000-0000-000000000003');
 update agenda_registros set valor = '{"texto": "oi, editado"}', registrado_por = 'aaaaaaaa-0000-0000-0000-000000000003'
 where agenda_dia_id = :'dia_a2' and campo_id = :'campo_nota';

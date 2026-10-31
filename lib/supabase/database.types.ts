@@ -85,14 +85,14 @@ isOneToOne: false
                   ]
                 },"agenda_registros": {
                   Row: {
-                    "agenda_dia_id": string,"atualizado_em": string | null,"atualizado_por": string | null,"campo_id": string,"escola_id": string,"id": string,"registrado_em": string,"registrado_por": string | null,"valor": NonNullable<Json>
+                    "agenda_dia_id": string,"atualizado_em": string | null,"atualizado_por": string | null,"campo_id": string,"escola_id": string,"id": string,"lote_id": string | null,"registrado_em": string,"registrado_por": string | null,"valor": NonNullable<Json>
                   }
                   ComputedFields: never
                   Insert: {
-                    "agenda_dia_id": string,"atualizado_em"?: string | null,"atualizado_por"?: string | null,"campo_id": string,"escola_id": string,"id"?: string,"registrado_em"?: string,"registrado_por"?: string | null,"valor": NonNullable<Json>
+                    "agenda_dia_id": string,"atualizado_em"?: string | null,"atualizado_por"?: string | null,"campo_id": string,"escola_id": string,"id"?: string,"lote_id"?: string | null,"registrado_em"?: string,"registrado_por"?: string | null,"valor": NonNullable<Json>
                   }
                   Update: {
-                    "agenda_dia_id"?: string,"atualizado_em"?: string | null,"atualizado_por"?: string | null,"campo_id"?: string,"escola_id"?: string,"id"?: string,"registrado_em"?: string,"registrado_por"?: string | null,"valor"?: NonNullable<Json>
+                    "agenda_dia_id"?: string,"atualizado_em"?: string | null,"atualizado_por"?: string | null,"campo_id"?: string,"escola_id"?: string,"id"?: string,"lote_id"?: string | null,"registrado_em"?: string,"registrado_por"?: string | null,"valor"?: NonNullable<Json>
                   }
                   Relationships: [
                     {
@@ -307,6 +307,15 @@ isOneToOne: false
 "criar_campos_padrao":
 { Args: { "p_escola": string }; Returns: undefined
                            },
+"definir_falta":
+{ Args: { "p_crianca": string,"p_data": string,"p_faltou": boolean }; Returns: undefined
+                           },
+"finalizar_dia":
+{ Args: { "p_crianca": string,"p_data": string }; Returns: undefined
+                           },
+"finalizar_dia_turma":
+{ Args: { "p_data": string,"p_turma": string }; Returns: number
+                           },
 "fn_dia_editavel":
 { Args: { "p_dia": string }; Returns: boolean
                            },
@@ -340,14 +349,41 @@ isOneToOne: false
 "fn_foto_visivel":
 { Args: { "p_name": string }; Returns: boolean
                            },
+"fn_hora_valida":
+{ Args: { "p": Json }; Returns: boolean
+                           },
+"fn_mural_visivel_responsavel":
+{ Args: { "p_data": string,"p_turma": string }; Returns: boolean
+                           },
 "fn_perfil_visivel":
 { Args: { "p_user": string }; Returns: boolean
+                           },
+"fn_pode_registrar_crianca":
+{ Args: { "p_crianca": string }; Returns: boolean
+                           },
+"fn_pode_registrar_dia":
+{ Args: { "p_dia": string }; Returns: boolean
+                           },
+"fn_pode_registrar_turma":
+{ Args: { "p_turma": string }; Returns: boolean
                            },
 "fn_tem_papel":
 { Args: { "p_escola": string,"p_papeis": (Database["public"]['Enums']["papel_membro"])[] }; Returns: boolean
                            },
+"fn_valor_valido":
+{ Args: { "p_opcoes": Json,"p_tipo": Database["public"]['Enums']["tipo_campo"],"v": Json }; Returns: boolean
+                           },
+"garantir_dia":
+{ Args: { "p_crianca": string,"p_data": string }; Returns: string
+                           },
+"registrar":
+{ Args: { "p_campo": string,"p_crianca": string,"p_data": string,"p_id": string,"p_valor": Json }; Returns: string
+                           },
 "registrar_em_lote":
-{ Args: { "p_campo": string,"p_data": string,"p_exceto"?: (string)[],"p_turma": string,"p_valor": Json }; Returns: number
+{ Args: { "p_campo": string,"p_data": string,"p_exceto"?: (string)[],"p_lote"?: string,"p_turma": string,"p_valor": Json }; Returns: number
+                           },
+"salvar_mural":
+{ Args: { "p_data": string,"p_texto": string,"p_turma": string }; Returns: undefined
                            },
 "ver_convite":
 { Args: { "p_token": string }; Returns: {
