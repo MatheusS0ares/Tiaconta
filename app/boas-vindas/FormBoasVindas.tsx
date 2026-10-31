@@ -36,15 +36,16 @@ export function FormBoasVindas({ next, nome, telefone, pedirConsentimento }: Pro
         <div className="flex flex-col gap-2">
           <label className="flex min-h-12 items-start gap-3 rounded-tc border-2 border-neutra p-4">
             <input type="checkbox" name="consentimento" className="mt-1 size-6 shrink-0 accent-[var(--escola-primaria)]" />
-            <span>
-              Li e aceito o{" "}
-              <Link href="/privacidade" target="_blank" className="font-bold underline underline-offset-4">
-                termo de uso e privacidade
-              </Link>
-              . A escola vai registrar a rotina do meu filho no TiaConta.
-            </span>
+            <span>Li e aceito o termo de uso e privacidade. A escola vai registrar a rotina do meu filho no TiaConta.</span>
           </label>
           {erros.consentimento ? <p className="text-sm font-semibold text-alerta">{erros.consentimento}</p> : null}
+          <Link
+            href="/privacidade"
+            target="_blank"
+            className="flex min-h-12 items-center self-start font-bold underline underline-offset-4"
+          >
+            Ler o termo de uso e privacidade
+          </Link>
         </div>
       ) : null}
       {erros.geral ? <Aviso tipo="erro">{erros.geral}</Aviso> : null}
